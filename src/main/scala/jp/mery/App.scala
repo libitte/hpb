@@ -7,15 +7,20 @@ object App {
 
   def main(args: Array[String]){
     val area = List(
-      //"http://beauty.hotpepper.jp/svcSA/macAD/salon/",//渋谷
-      //"http://beauty.hotpepper.jp/svcSA/macAA/salon/",//新宿
-      //"http://beauty.hotpepper.jp/svcSA/macAB/salon/" //池袋
-      "http://beauty.hotpepper.jp/svcSA/macAC/salon/sacX011/" //六本木・麻布・赤坂
+      //"http://beauty.hotpepper.jp/svcSA/macAD/salon/",//ヘア 渋谷
+      //"http://beauty.hotpepper.jp/svcSA/macAA/salon/",//ヘア 新宿
+      //"http://beauty.hotpepper.jp/svcSA/macAB/salon/" //ヘア 池袋
+      //"http://beauty.hotpepper.jp/svcSA/macAC/salon/sacX011/" //ヘア 六本木・麻布・赤坂
+
+      "http://beauty.hotpepper.jp/nail/svcSA/macAB/salon/" // ネイル 池袋・目白
+      //"http://beauty.hotpepper.jp/nail/svcSA/macAC/salon/" // ネイル 恵比寿・代官山・中目黒・広尾・麻布・六本木
+      //"http://beauty.hotpepper.jp/nail/svcSA/macAA/salon/" // ネイル 新宿・高田馬場・代々木
+      //"http://beauty.hotpepper.jp/nail/svcSA/macAD/salon/" // ネイル 渋谷・青山・表参道・原宿
     )
     area.par map crawl
   }
 
-//crawler
+  //crawler
 
   def crawl(url:String){
     (getShopLinks(url) map getDetail) map printShop
@@ -30,7 +35,8 @@ object App {
   }
 
   def getDetail(url:String):ShopData = {
-    val name = getText(url,"//em[@class='seoCaption']")
+    //val name = getText(url,"//em[@class='seoCaption']")
+    val name = getText(url,"//div[@id='mainContents']//p[@class='detailTitle']//a")
     val address = getText(url,"//div[@id='mainContents']//th[text()='住所']/../td")
     val phone = getPhoneNumber(url)
     ShopData(name,address,phone)
